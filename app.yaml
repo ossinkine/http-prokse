@@ -1,0 +1,16 @@
+application: http-prokse
+version: 0-1-0
+runtime: php
+api_version: 1
+
+skip_files:
+- ^(.*/)?\.
+- ^(.*/)?bin
+- ^(.*/)?cache
+- ^(.*/)?doc
+- ^(.*/)?test
+
+handlers:
+- url:    /.*
+  script: web/index.php
+  secure: always

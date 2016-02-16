@@ -1,0 +1,30 @@
+{
+    "name": "ossinkine/http-prokse",
+    "description": "HTTP Proxy",
+    "type": "project",
+    "keywords": ["http", "proxy"],
+    "homepage": "https://github.com/ossinkine/http-proxy",
+    "license":  "MIT",
+    "authors": [
+        {
+            "name": "Gocha Ossinkine",
+            "email": "ossinkine@ya.ru",
+            "homepage": "https://github.com/ossinkine"
+        }
+    ],
+    "require": {
+        "php": "~5.5",
+        "guzzlehttp/guzzle": "~6.1",
+        "sabberworm/php-css-parser": "~7.0",
+        "silex/silex": "~1.3",
+        "symfony/css-selector": "~3.0",
+        "symfony/dom-crawler": "~3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0",
+        "symfony/browser-kit": "~3.0"
+    },
+    "autoload": {
+        "psr-4": { "": "src/" }
+    }
+}

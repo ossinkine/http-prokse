@@ -157,8 +157,8 @@ class ProxyController
             }
         }
         foreach ($crawler->filter('style') as $node) {
-            $css = $node->textContent;
-            $node->textContent = $this->processCss($css);
+            $css = $node->nodeValue;
+            $node->nodeValue = $this->processCss($css);
         }
         foreach ($crawler->filter('[style]') as $node) {
             $css = $node->getAttribute('style');

@@ -1,6 +1,6 @@
 application: http-prokse
 version: 0-1-0
-runtime: php
+runtime: php55
 api_version: 1
 
 skip_files:

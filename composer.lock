@@ -313,16 +313,16 @@
         },
         {
             "name": "sabberworm/php-css-parser",
-            "version": "7.0.1",
+            "version": "7.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabberworm/PHP-CSS-Parser.git",
-                "reference": "003e4fb8728de4381a9d5181c8e6dcf2e3f4b807"
+                "reference": "546b2b93733165cb27c7cef0ccc8e66384d1d833"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/003e4fb8728de4381a9d5181c8e6dcf2e3f4b807",
-                "reference": "003e4fb8728de4381a9d5181c8e6dcf2e3f4b807",
+                "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/546b2b93733165cb27c7cef0ccc8e66384d1d833",
+                "reference": "546b2b93733165cb27c7cef0ccc8e66384d1d833",
                 "shasum": ""
             },
             "require": {
@@ -350,7 +350,7 @@
                 "parser",
                 "stylesheet"
             ],
-            "time": "2015-12-25 18:24:59"
+            "time": "2016-02-11 11:18:40"
         },
         {
             "name": "silex/silex",

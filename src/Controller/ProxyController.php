@@ -48,6 +48,9 @@ class ProxyController
      */
     public function indexAction(Request $request, $url)
     {
+        if ($queryString = $request->getQueryString()) {
+            $url .= '?'.$queryString;
+        }
         $this->currentUrl = $url;
         $method = $request->getMethod();
         $headers = $request->headers->all();

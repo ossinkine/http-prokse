@@ -33,7 +33,7 @@ class Application extends Silex\Application
         $this->register(new ServiceControllerServiceProvider());
 
         $this
-            ->get('/{url}', 'controller.proxy:indexAction')
+            ->match('/{url}', 'controller.proxy:indexAction')
             ->bind('index')
             ->assert('url', '.*')
         ;

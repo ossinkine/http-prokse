@@ -55,7 +55,7 @@ class ProxyController
         $method = $request->getMethod();
         $headers = $request->headers->all();
         unset($headers['host']);
-        $response = $this->httpClient->request($method, $url, ['headers' => $headers, 'allow_redirects' => false]);
+        $response = $this->httpClient->request($method, $url, ['headers' => $headers, 'body' => $request->getContent(), 'allow_redirects' => false]);
 
         $headers = $this->getHeaders($response);
         list($contentType) = isset($headers['Content-Type']) ? explode('; ', reset($headers['Content-Type'])) : null;
@@ -118,8 +118,10 @@ class ProxyController
      */
     private function getHtmlResponse(MessageInterface $response)
     {
+        $contentType = $response->getHeader('Content-Type');
+        $contentType = reset($contentType);
         $crawler = new Crawler();
-        $crawler->addContent($response->getBody());
+        $crawler->addContent($response->getBody(), $contentType);
         $elementsWithUrl = [
             'a'          => 'href',
             'applet'     => 'codebase',

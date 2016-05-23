@@ -6,6 +6,7 @@ use DOMElement;
 use GuzzleHttp\Client as HttpClient;
 use Psr\Http\Message\MessageInterface;
 use Sabberworm\CSS\Parser as CssParser;
+use Sabberworm\CSS\Property\Import;
 use Sabberworm\CSS\Value\URL;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
@@ -231,6 +232,9 @@ class ProxyController
         $parser = new CssParser($source);
         $css = $parser->parse();
         foreach ($css->getAllValues() as $value) {
+            if ($value instanceof Import) {
+                $value = $value->getLocation();
+            }
             if ($value instanceof URL) {
                 $url = $value->getURL();
                 $urlString = $url->getString();

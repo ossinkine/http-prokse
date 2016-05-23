@@ -4,6 +4,7 @@ namespace Controller;
 
 use DOMElement;
 use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Exception\BadResponseException;
 use Psr\Http\Message\MessageInterface;
 use Sabberworm\CSS\Parser as CssParser;
 use Sabberworm\CSS\Property\Import;
@@ -56,7 +57,15 @@ class ProxyController
         $method = $request->getMethod();
         $headers = $request->headers->all();
         unset($headers['host']);
-        $response = $this->httpClient->request($method, $url, ['headers' => $headers, 'body' => $request->getContent(), 'allow_redirects' => false]);
+        try {
+            $response = $this->httpClient->request(
+                $method,
+                $url,
+                ['headers' => $headers, 'body' => $request->getContent(), 'allow_redirects' => false]
+            );
+        } catch (BadResponseException $e) {
+            $response = $e->getResponse();
+        }
 
         $headers = $this->getHeaders($response);
         list($contentType) = isset($headers['Content-Type']) ? explode('; ', reset($headers['Content-Type'])) : null;

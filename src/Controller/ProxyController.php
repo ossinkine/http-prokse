@@ -169,8 +169,13 @@ class ProxyController
             $css = $node->getAttribute('style');
             $node->setAttribute('style', $this->processStyle($css));
         }
+        $result = sprintf('<!DOCTYPE html><html>%s</html>', $crawler->html());
+        $charset = strtolower($crawler->getNode(0)->ownerDocument->encoding);
+        if ('utf-8' !== $charset) {
+            $result = iconv('utf-8', $charset, $result);
+        }
 
-        return new Response(sprintf('<!DOCTYPE html><html>%s</html>', $crawler->html()));
+        return new Response($result);
     }
 
     /**

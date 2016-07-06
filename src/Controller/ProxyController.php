@@ -263,8 +263,11 @@ class ProxyController
     private function getProxyUrl($url)
     {
         $url = parse_url($url);
+        if (isset($url['scheme']) && in_array($url['scheme'], ['http', 'https'], true)) {
+            return $this->buildUrl($url);
+        }
         $currentUrl = parse_url($this->currentUrl);
-        if (!isset($url['scheme']) && !isset($url['host'])) { // Check scheme because 'javascript:void(0)' is valid
+        if (!isset($url['host'])) {
             $url['host'] = $currentUrl['host'];
             if (isset($currentUrl['port'])) {
                 $url['port'] = $currentUrl['port'];

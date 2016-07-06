@@ -117,6 +117,11 @@ class ProxyController
                 $headers['Set-Cookie'][$index] = implode('; ', $cookie);
             }
         }
+        foreach (['Content-Security-Policy', 'Content-Security-Policy-Report-Only'] as $header) {
+            if (isset($headers[$header])) {
+                unset($headers[$header]);
+            }
+        }
 
         return $headers;
     }

@@ -268,7 +268,7 @@ class ProxyController
     private function getProxyUrl($url)
     {
         $url = parse_url($url);
-        if (isset($url['scheme']) && in_array($url['scheme'], ['http', 'https'], true)) {
+        if (isset($url['scheme']) && !in_array($url['scheme'], ['http', 'https'], true)) {
             return $this->buildUrl($url);
         }
         $currentUrl = parse_url($this->currentUrl);

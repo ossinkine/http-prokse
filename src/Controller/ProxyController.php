@@ -137,57 +137,57 @@ class ProxyController
         $contentType = reset($contentType);
         $crawler = new Crawler();
         $crawler->addContent($response->getBody(), $contentType);
-        $elementsWithUrl = [
-            'a'          => 'href',
-            'applet'     => 'codebase',
-            'area'       => 'href',
-            'audio'      => 'src',
-            'base'       => 'href',
-            'blockquote' => 'cite',
-            'body'       => 'background',
-            'button'     => 'formaction',
-            'command'    => 'icon',
-            'del'        => 'cite',
-            'embed'      => 'src',
-            'form'       => 'action',
-            'frame'      => ['longdesc', 'src'],
-            'head'       => 'profile',
-            'html'       => 'manifest',
-            'iframe'     => ['longdesc', 'src'],
-            'img'        => ['longdesc', 'src', 'usemap'],
-            'input'      => ['formaction', 'src', 'usemap'],
-            'ins'        => 'cite',
-            'link'       => 'href',
-            'object'     => ['classid', 'codebase', 'data', 'usemap'],
-            'q'          => 'cite',
-            'script'     => 'src',
-            'source'     => 'src',
-            'video'      => ['poster', 'src'],
-        ];
-        foreach ($elementsWithUrl as $selector => $attributes) {
-            $attributes = (array) $attributes;
-            /** @var DOMElement $node */
-            foreach ($crawler->filter($selector) as $node) {
-                foreach ($attributes as $attribute) {
-                    if ($node->hasAttribute($attribute)) {
-                        $url = $node->getAttribute($attribute);
-                        $node->setAttribute($attribute, $this->getProxyUrl($url));
+        if ($crawler->count()) {
+            $elementsWithUrl = [
+                'a'          => 'href',
+                'applet'     => 'codebase',
+                'area'       => 'href',
+                'audio'      => 'src',
+                'base'       => 'href',
+                'blockquote' => 'cite',
+                'body'       => 'background',
+                'button'     => 'formaction',
+                'command'    => 'icon',
+                'del'        => 'cite',
+                'embed'      => 'src',
+                'form'       => 'action',
+                'frame'      => ['longdesc', 'src'],
+                'head'       => 'profile',
+                'html'       => 'manifest',
+                'iframe'     => ['longdesc', 'src'],
+                'img'        => ['longdesc', 'src', 'usemap'],
+                'input'      => ['formaction', 'src', 'usemap'],
+                'ins'        => 'cite',
+                'link'       => 'href',
+                'object'     => ['classid', 'codebase', 'data', 'usemap'],
+                'q'          => 'cite',
+                'script'     => 'src',
+                'source'     => 'src',
+                'video'      => ['poster', 'src'],
+            ];
+            foreach ($elementsWithUrl as $selector => $attributes) {
+                $attributes = (array)$attributes;
+                /** @var DOMElement $node */
+                foreach ($crawler->filter($selector) as $node) {
+                    foreach ($attributes as $attribute) {
+                        if ($node->hasAttribute($attribute)) {
+                            $url = $node->getAttribute($attribute);
+                            $node->setAttribute($attribute, $this->getProxyUrl($url));
+                        }
                     }
                 }
             }
-        }
-        foreach ($crawler->filter('style') as $node) {
-            $css = $node->nodeValue;
-            $node->nodeValue = $this->processCss($css);
-        }
-        foreach ($crawler->filter('[style]') as $node) {
-            $css = $node->getAttribute('style');
-            $node->setAttribute('style', $this->processStyle($css));
-        }
-        $result = sprintf('<!DOCTYPE html><html>%s</html>', $crawler->html());
-        $charset = strtolower($crawler->getNode(0)->ownerDocument->encoding);
-        if ('utf-8' !== $charset) {
-            $result = iconv('utf-8', $charset, $result);
+            foreach ($crawler->filter('style') as $node) {
+                $css = $node->nodeValue;
+                $node->nodeValue = $this->processCss($css);
+            }
+            foreach ($crawler->filter('[style]') as $node) {
+                $css = $node->getAttribute('style');
+                $node->setAttribute('style', $this->processStyle($css));
+            }
+            $result = $crawler->getNode(0)->ownerDocument->saveHTML();
+        } else {
+            $result = '';
         }
 
         return new Response($result);
